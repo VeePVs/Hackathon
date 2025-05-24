@@ -27,6 +27,7 @@ def responder_pregunta(texto):
         return empleados_activos()
     
     elif "salario" in texto and "promedio" in texto and "empleados":
+        mes_numero = obtener_mes_desde_texto(texto)
         return salarioPromedio()
 
     else:
