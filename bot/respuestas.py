@@ -1,4 +1,4 @@
-from database.querys import pago_nomina_mes, empleados_activos, salarioPromedio, obtener_tabla_descuentos, obtener_tabla_diasTrabajados
+from database.querys import pago_nomina_mes, empleados_activos, salarioPromedio, obtener_tabla_descuentos, obtener_tabla_diasTrabajados, contactos_deudores, facturas_emitidas, porcentaje_efectividad, contratos_empleados
 
 meses = {
     "enero": 1, "febrero": 2, "marzo": 3,
@@ -49,5 +49,26 @@ def responder_pregunta(texto):
         mes = obtener_mes_desde_texto(texto)
         anio = obtener_anio_desde_texto(texto)
         return obtener_tabla_diasTrabajados(nombre, anio, mes)
+    elif "deudores" in texto:
+        return contactos_deudores()
+    elif "cantidad" in texto and "facturas" in texto and "emitidas" in texto:
+        return facturas_emitidas()
+    elif "efectividad" in texto and "cobranza" in texto:
+        return porcentaje_efectividad()
+    elif "contrato" in texto and "tipo" in texto:
+        nombre = texto.split("empleado")[-1].strip()
+        return contratos_empleados(nombre)
     else:
-        return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?\n- ¿Cual es el descuento del salario en el año 2024 en abril del empleado Samuel?"
+        return (
+            "Lo siento, no entendí tu pregunta. Asegúrate de mencionar palabras clave como 'nómina', 'empleado', 'salario', etc.\n\n"
+            "Aquí tienes algunos ejemplos que puedes probar:\n"
+            "- ¿Cuánto pagué en nómina el marzo pasado?\n"
+            "- ¿Cuántos empleados tengo activos actualmente?\n"
+            "- ¿Cuál fue el salario promedio de los empleados en julio de 2023?\n"
+            "- ¿Qué descuentos en abril del 2024 tuvo el empleado Laura?\n"
+            "- ¿Cuántos días trabajó en junio del 2024 el empleado Carlos?\n"
+            "- ¿Quiénes son los contactos deudores?\n"
+            "- ¿Qué cantidad de facturas se emitieron en abril del 2023?\n"
+            "- ¿Cuál es el porcentaje de efectividad de la cobranza?\n"
+            "- ¿Qué tipo de contrato tiene el empleado Andrés?"
+        )
