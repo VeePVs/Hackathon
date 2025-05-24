@@ -39,7 +39,7 @@ def responder_pregunta(texto):
         anio_numero = obtener_anio_desde_texto(texto)
         return salarioPromedio(mes_numero, anio_numero)
 
-    elif "salario" in texto and "empleado" in texto:
+    elif "descuento" in texto and "empleado" in texto:
         nombre = texto.split("empleado")[-1].strip()
         print(nombre)
         mes = obtener_mes_desde_texto(texto)

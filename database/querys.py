@@ -104,7 +104,7 @@ def obtener_tabla_descuentos(nombre, anio, mes):
         plt.savefig(ruta_imagen, bbox_inches='tight')
         plt.close(fig)
 
-        return ruta_imagen, f"Este es el resultado de las personas llamadas {nombre} en el año {anio} y mes {mes}"
+        return ruta_imagen, f"Este es el resultado de las personas llamadas {nombre} y su descuento en el año {anio} y mes {mes}"
     except Exception as e:
         return None, str(e)
     finally:
