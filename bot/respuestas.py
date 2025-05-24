@@ -45,6 +45,5 @@ def responder_pregunta(texto):
         mes = obtener_mes_desde_texto(texto)
         anio = obtener_anio_desde_texto(texto)
         return obtener_tabla_descuentos(nombre, anio, mes)
-    
     else:
-        return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?"
+        return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?\n- ¿Cual es el descuento del salario en el año 2024 en abril del empleado Samuel?"
