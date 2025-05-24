@@ -10,7 +10,7 @@ def pago_nomina_mes(mes=7, anio=2024):
             (mes, anio)
         )
         resultados = cursor.fetchall()
-        return f"En el mes {mes} del año {anio} el total de la nómina es: {resultados[0][0]}"
+        return f"En el mes {mes} del año {anio} el total de la nómina es: {'{:,.2f}'.format(resultados[0][0])}"
     except mysql.connector.Error as err:
         return f"La consulta no se pudo realizar: {err}"
     finally:
