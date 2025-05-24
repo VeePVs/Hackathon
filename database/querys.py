@@ -27,14 +27,26 @@ def empleados_activos(activo=1):
         return f"La consulta no se pudo realizar: {err}"
     finally:
         conexion.close()
-
-def salarioPromedio(anio = 2024, mes = 7):
+def salarioPromedio(anio=2024, mes=7):
+    print(f"Año: {anio}, Mes: {mes}")
     conexion = conectar()
     try:
         cursor = conexion.cursor()
-        cursor.execute("SELECT YEAR(created_at) AS payroll_year, MONTH(created_at) AS payroll_month, AVG(CAST(REPLACE(total, ',', '.') AS DECIMAL(10, 2))) AS average_salary FROM payroll_details WHERE YEAR(created_at) = %s AND MONTH(created_at) = %s", (anio, mes))
+        cursor.execute("""
+            SELECT 
+                YEAR(created_at) AS payroll_year, 
+                MONTH(created_at) AS payroll_month, 
+                AVG(CAST(REPLACE(total, ',', '.') AS DECIMAL(10, 2))) AS average_salary 
+            FROM payroll_details 
+            WHERE YEAR(created_at) = %s AND MONTH(created_at) = %s
+        """, (mes,anio,))
         resultados = cursor.fetchall()
-        return f"El salario promedio es: {'{:,.2f}'.format(resultados[0][2])}"
+        print("Resultados:", resultados)
+
+        if resultados and resultados[0][2] is not None:
+            return f"El salario promedio para para {mes}/{anio} es: {'{:,.2f}'.format(resultados[0][2])}"
+        else:
+            return f"No se encontraron registros de nómina para {mes}/{anio}."
     except mysql.connector.Error as err:
         return f"La consulta no se pudo realizar: {err}"
     finally:

@@ -13,13 +13,21 @@ def obtener_mes_desde_texto(texto):
             return meses[mes_texto]
     return None
 
+def obtener_anio_desde_texto(texto):
+    texto = texto.lower().strip()
+    for i in range(2021, 2031):
+        if str(i) in texto:
+            return i
+    return None
+
 def responder_pregunta(texto):
     texto = texto.lower()
 
     if ("nomina" in texto or "nómina" in texto) and ("pague" in texto or "pagué" in texto):
         mes_numero = obtener_mes_desde_texto(texto)
+        anio_numero = obtener_anio_desde_texto(texto)
         if mes_numero:
-            return pago_nomina_mes(mes_numero)
+            return pago_nomina_mes(mes_numero, anio_numero)
         else:
             return "No reconocí el mes. Intenta escribirlo correctamente (ejemplo: marzo, junio)."
 
@@ -28,7 +36,8 @@ def responder_pregunta(texto):
     
     elif "salario" in texto and "promedio" in texto and "empleados":
         mes_numero = obtener_mes_desde_texto(texto)
-        return salarioPromedio()
+        anio_numero = obtener_anio_desde_texto(texto)
+        return salarioPromedio(mes_numero, anio_numero)
 
     else:
         return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?"
