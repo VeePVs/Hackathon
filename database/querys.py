@@ -34,7 +34,7 @@ def salarioPromedio():
         cursor = conexion.cursor()
         cursor.execute("SELECT YEAR(created_at) AS payroll_year, MONTH(created_at) AS payroll_month, AVG(CAST(REPLACE(total, ',', '.') AS DECIMAL(10, 2))) AS average_salary FROM payroll_details GROUP BY payroll_year, payroll_month ORDER BY payroll_year DESC, payroll_month DESC;")
         resultados = cursor.fetchall()
-        return f"El salario promedio es: {resultados[0][0]}"
+        return f"El salario promedio es: {'{:,.2f}'.format(resultados[0][0])}"
     except mysql.connector.Error as err:
         return f"La consulta no se pudo realizar: {err}"
     finally:

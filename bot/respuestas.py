@@ -1,4 +1,4 @@
-from database.querys import pago_nomina_mes, empleados_activos
+from database.querys import pago_nomina_mes, empleados_activos, salarioPromedio
 
 meses = {
     "enero": 1, "febrero": 2, "marzo": 3,
@@ -9,7 +9,7 @@ meses = {
 
 def obtener_mes_desde_texto(texto):
     for mes_texto in meses.keys():
-        if f"el {mes_texto}" in texto or f"{mes_texto} pasado" in texto:
+        if f"el {mes_texto}" in texto or f"{mes_texto}" in texto:
             return meses[mes_texto]
     return None
 
@@ -25,6 +25,9 @@ def responder_pregunta(texto):
 
     elif "empleados" in texto and "activos" in texto:
         return empleados_activos()
+    
+    elif "salario" in texto and "promedio" in texto and "empleados":
+        return salarioPromedio()
 
     else:
         return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?"
