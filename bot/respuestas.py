@@ -1,4 +1,4 @@
-from database.querys import pago_nomina_mes, empleados_activos, salarioPromedio, obtener_tabla_descuentos
+from database.querys import pago_nomina_mes, empleados_activos, salarioPromedio, obtener_tabla_descuentos, obtener_tabla_diasTrabajados
 
 meses = {
     "enero": 1, "febrero": 2, "marzo": 3,
@@ -41,9 +41,13 @@ def responder_pregunta(texto):
 
     elif "descuento" in texto and "empleado" in texto:
         nombre = texto.split("empleado")[-1].strip()
-        print(nombre)
         mes = obtener_mes_desde_texto(texto)
         anio = obtener_anio_desde_texto(texto)
         return obtener_tabla_descuentos(nombre, anio, mes)
+    elif ("dias" in texto or "días" in texto) and "trabajo" in texto and "empleado" in texto:
+        nombre = texto.split("empleado")[-1].strip()
+        mes = obtener_mes_desde_texto(texto)
+        anio = obtener_anio_desde_texto(texto)
+        return obtener_tabla_diasTrabajados(nombre, anio, mes)
     else:
         return "No entendí tu pregunta. Intenta con algo como:\n- ¿Cuánto pagué en nómina el marzo pasado?\n- ¿Cuántos empleados tengo activos actualmente?\n- ¿Cual es el descuento del salario en el año 2024 en abril del empleado Samuel?"

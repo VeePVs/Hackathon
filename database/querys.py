@@ -110,3 +110,57 @@ def obtener_tabla_descuentos(nombre, anio, mes):
     finally:
         conexion.close()
    
+def obtener_tabla_diasTrabajados(nombre, anio, mes):
+    conexion = conectar()
+    if anio == None:
+        anio = 2024
+    try:
+        cursor = conexion.cursor()
+        query = """
+            SELECT
+                pyd.employee_id,
+                em.full_name,
+                SUM(pyd.period_worked_days) AS total_period_worked_days,
+                YEAR(py.start_date) AS payroll_year,
+                MONTH(py.start_date) AS payroll_month
+            FROM
+                payroll_details AS pyd
+            INNER JOIN
+                payrolls py ON py.id = pyd.payroll_id
+            INNER JOIN
+                user_data usd ON usd.user_id = pyd.user_id
+            INNER JOIN
+                employees em ON em.id = pyd.employee_id
+            WHERE
+                em.full_name LIKE %s
+                AND YEAR(py.start_date) = %s
+                AND MONTH(py.start_date) = %s
+            GROUP BY
+                pyd.employee_id,
+                em.full_name,
+                YEAR(py.start_date),
+                MONTH(py.start_date);
+        """
+        cursor.execute(query, (f"%{nombre}%", anio, mes))
+        resultados = cursor.fetchall()
+        columnas = [desc[0] for desc in cursor.description]
+        df = pd.DataFrame(resultados, columns=columnas)
+
+        if df.empty:
+            return None, "No se encontraron resultados."
+
+        fig, ax = plt.subplots(figsize=(10, len(df)*0.5 + 1))
+        ax.axis('tight')
+        ax.axis('off')
+        tabla = ax.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center')
+        tabla.scale(1, 1.5)
+        ruta_imagen = "tabla_días.png"
+        plt.savefig(ruta_imagen, bbox_inches='tight')
+        plt.close(fig)
+
+        return ruta_imagen, f"Este es el resultado de las personas llamadas {nombre} y sus días trabajados en el año {anio} y mes {mes}"
+    except Exception as e:
+        return None, str(e)
+    finally:
+        conexion.close()
+   
