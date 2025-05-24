@@ -2,6 +2,8 @@ from .conexion import conectar
 
 def pago_nomina_mes(mes=7, anio=2024):
     conexion = conectar()
+    if anio == None:
+        anio = 2024
     try:
         cursor = conexion.cursor()
         cursor.execute(
@@ -28,8 +30,9 @@ def empleados_activos(activo=1):
     finally:
         conexion.close()
 def salarioPromedio(anio=2024, mes=7):
-    print(f"Año: {anio}, Mes: {mes}")
     conexion = conectar()
+    if anio == None:
+        anio = 2024
     try:
         cursor = conexion.cursor()
         cursor.execute("""
@@ -41,7 +44,6 @@ def salarioPromedio(anio=2024, mes=7):
             WHERE YEAR(created_at) = %s AND MONTH(created_at) = %s
         """, (mes,anio,))
         resultados = cursor.fetchall()
-        print("Resultados:", resultados)
 
         if resultados and resultados[0][2] is not None:
             return f"El salario promedio para para {mes}/{anio} es: {'{:,.2f}'.format(resultados[0][2])}"
