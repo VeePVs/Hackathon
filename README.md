@@ -24,8 +24,11 @@ venv\Scripts\activate        # En Windows
 ### 3. Instala las dependencias
 
 pip install pandas
+
 python -m pip install -U matplotlib
+
 pip install python-telegram-bot --upgrade
+
 pip install mysql-connector-python
 
 ⚙️ Archivos principales
