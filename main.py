@@ -1,7 +1,7 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 from bot.manejador import start, handle_message
 
-TOKEN = '8182404121:AAH50htGMGB_-SmA-Mjhh54CPiSsz3zGUZI'
+TOKEN = 'Token here'
 
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
